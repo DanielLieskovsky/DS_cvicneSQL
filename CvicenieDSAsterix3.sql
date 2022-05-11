@@ -142,3 +142,42 @@ select sum(suma)
                                                                                                     from p_zamestnavatel
                                                                                                      where nazov like 'Tesco'))
                         );
+                        
+--11
+select * 
+ from p_osoba
+  where meno like 'Karol' and priezvisko like 'Matiasko';
+
+select * 
+ from p_mesto
+  order by n_mesta desc;
+  
+select * 
+ from p_platitel;
+  
+select * 
+ from p_zamestnavatel
+  where nazov like 'ZU';
+  
+select *
+ from p_zamestnavatel pzam join p_platitel pplat on (pzam.ICO = pplat.id_platitela);
+
+--01108 psc
+insert into p_platitel
+ values ('780101/1357');
+
+insert into p_osoba(rod_cislo, meno, priezvisko, PSC)
+values ('780101/1357', 'Karol', 'Matiasko', '01108');
+
+insert into p_zamestnanec(id_zamestnavatela, rod_cislo, dat_od, dat_do)
+select ICO, '780101/1357', add_months(sysdate,1), null
+ from p_zamestnavatel
+  where p_zamestnavatel.nazov like 'ZU';
+  
+select *
+ from p_zamestnanec
+  where id_zamestnavatela in (select id_zamestnavatela
+                                from p_zamestnavatel
+                                 where nazov like 'ZU');
+
+rollback;
